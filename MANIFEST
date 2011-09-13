@@ -1,0 +1,14 @@
+Changes
+ignore.txt
+lib/Dancer/Plugin/EncodeID.pm
+Makefile.PL
+MANIFEST
+README
+t/00-load.t
+t/01-config-settings.t
+t/02-encode.t
+t/03-decode.t
+t/04-encode-decode.t
+t/manifest.t
+t/pod-coverage.t
+t/pod.t
