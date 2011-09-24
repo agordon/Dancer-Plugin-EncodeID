@@ -2,7 +2,7 @@ package Dancer::Plugin::EncodeID;
 
 use strict;
 use warnings;
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 use Dancer ':syntax';
 use Dancer::Plugin;
@@ -28,6 +28,10 @@ sub _create_cipher {
 register encode_id => sub {
 	my $cleartext_id = shift;
 	die "Missing Clear text ID parameter" unless defined $cleartext_id;
+
+	## Prefix is optional, can be undef
+	my $prefix = shift ;
+	$cleartext_id = $prefix . $cleartext_id if defined $prefix;
 
 	_create_cipher() unless $cipher;
 
@@ -60,6 +64,9 @@ register valid_encoded_id => sub {
 register decode_id => sub {
 	my $encoded_id = shift or die "Missing Encoded ID parameter";
 
+	## Prefix is optional, can be undef
+	my $prefix = shift ;
+
 	_create_cipher() unless $cipher;
 
 	die "Invalid Hash-ID value ($encoded_id)" unless $encoded_id =~ /^[0-9A-F]+$/i;
@@ -79,6 +86,16 @@ register decode_id => sub {
 		#print STDERR "Decoded: '$text'\n";
 		$cleartext .= $text;
 	};
+
+	if (defined $prefix) {
+		## Ensure the decoded ID contains the prefix
+		my $i = index $cleartext,$prefix;
+		if ($i != 0) {
+			die "Invalid Hash-ID value ($encoded_id) - bad prefix" ;
+		}
+		#skip the prefix;
+		$cleartext = substr $cleartext, length($prefix);
+	}
 
 	return $cleartext;
 };
