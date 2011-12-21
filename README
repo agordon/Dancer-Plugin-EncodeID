@@ -2,7 +2,7 @@ NAME
     Dancer::Plugin::EncodeID - Encode/Decode (or obfuscate) IDs in URLs
 
 VERSION
-    version 0.01
+    version 0.02
 
 SYNOPSIS
             use Dancer;
@@ -44,6 +44,16 @@ SYNOPSIS
 
             dance;
 
+FUNCTIONS
+    `encode_id(ID [,PREFIX])' - Encodes the given ID, returns the encoded
+    hash value. If "PREFIX" is given, it will be added to the ID before
+    encoding. It can be used when decoding to verify the decoded value is
+    valid.
+
+    `decode_id(ID [,PREFIX])' - Decodes the given ID, returns the original
+    (cleartext) ID value. If "PREFIX" is given, it will be used to verify
+    the validity of the ID.
+
 DESCRIPTION
     This module aims to make it as easy as possible to obfuscate internal
     IDs when using them in a URL given to users. Instead of seeing
@@ -79,6 +89,9 @@ BUGS
     https://github.com/agordon/Dancer-Plugin-EncodeID/issues
 
 SEE ALSO
+    A fully functional command-line tool to encode/decode IDs is available
+    in the `./eg/' folder.
+
     Dancer, Dancer::Plugin
 
 SUPPORT
